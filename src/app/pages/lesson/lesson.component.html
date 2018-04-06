@@ -1,0 +1,41 @@
+<app-page-header></app-page-header>
+
+<br>
+
+<div class="container">
+  <div class="card">
+    <div class="card-body">
+      <div class="input-group mb-3">
+        <div class="input-group-prepend">
+          <span class="input-group-text" id="search_lesson">
+            <i class="material-icons">search</i>
+          </span>
+        </div>
+        <input type="text" class="form-control" placeholder="Buscar..." aria-label="search_lesson" aria-describedby="search_lesson" [(ngModel)]="filtro">
+      </div>
+    </div>
+  </div>
+  <br>
+
+  <pagination-controls (pageChange)="p = $event"></pagination-controls>
+
+  <div [class.d-none]="lesson_list.length > 0">
+    <img class="d-block mx-auto" src="assets/image/loading.gif" >
+  </div>
+
+  <div class="container-fluid d-flex flex-wrap" #lessonList>
+    <div class="col-sm-12 col-md-4 col-lg-4 mb-2" *ngFor="let lesson of lesson_list | lessonSearch: filtro | paginate: { itemsPerPage: 12, currentPage: p }">
+      <app-lesson-card
+        [aulaDescricao] = "lesson.aula_descricao"
+        [moduloDescricao] = "lesson.modulo_descricao"
+        [disciplinaDescricao] = "lesson.disciplina_descricao"
+        [areaconhecimentoDescricao] = "lesson.areaconhecimento_descricao"
+      ></app-lesson-card>
+    </div>
+  </div>
+
+  <div class="text-center" *ngIf="isEmpty">Nenhum item encontrado</div>
+
+  <pagination-controls (pageChange)="p = $event"></pagination-controls>
+
+</div>
